@@ -1,0 +1,21 @@
+# Makefile for Verilog/SystemVerilog Simulation
+
+# Variables
+SRC_DIR = RTL
+TB = restoringDividerFinal_tb
+TOP_MODULE = work.$(TB)
+WAVE_PATH = sim:/$(TB)/dut/*
+
+# Targets
+all: compile simulate
+
+compile:
+	vlog -sv $(SRC_DIR)/*.sv
+
+simulate:
+	vsim -voptargs=+acc $(TOP_MODULE) -do "add wave $(WAVE_PATH); run -all; quit"
+
+clean:
+	rm -rf work transcript vsim.wlf *.log *.vcd *.jou
+
+.PHONY: all compile simulate clean
